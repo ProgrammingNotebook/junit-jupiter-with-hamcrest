@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.programmingnotebook</groupId>
+    <artifactId>junit-jupiter-with-hamcrest</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+
+        <!-- Project Configuration -->
+        <java.version>22</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+
+        <!-- Dependency Versions -->
+        <lombok.version>1.18.38</lombok.version>
+        <junit-bom.version>5.12.1</junit-bom.version>
+        <hamcrest.version>3.0</hamcrest.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+
+        <!-- Third Party Dependencies -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency> <!-- Lombok -->
+
+        <!-- Test Dependencies -->
+        <!-- JUnit jupiter is an aggregated dependency for junit-jupiter-spi + junit-jupiter-engine -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency> <!-- JUnit Jupiter -->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency> <!-- Hamcrest -->
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+            </plugin>
+
+            <!-- Maven Surefire Plugin -->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+
+                    <!-- This is used to run only tests marked with @Tag("fast"), no other tests
+                    will run. -->
+                    <!-- <groups>fast</groups> -->
+
+                    <!-- This is used to disable the tests that are marked with @Test("slow"), other
+                    tests will run fine. -->
+                    <excludedGroups>slow</excludedGroups>
+                    <properties>
+
+                        <!-- This will disable the @Disabled condition and will run the unit tests
+                        marked @Disabled. Basically deactivated any diabled conditions. -->
+                        <!-- <configurationParameters>
+                            junit.jupiter.conditions.deactivate=*
+                        </configurationParameters> -->
+                    </properties>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
